@@ -8,7 +8,7 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
   <title>LiftScale</title>
   <link rel="manifest" href="manifest.json" />
-  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="Style.css" />
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
 <body>
@@ -154,8 +154,8 @@
       <div class="section-title" id="log-day-title"></div>
 
       <div class="type-toggle">
-        <button class="type-btn active" id="type-strength" onclick="setWorkoutType('strength')">Strength</button>
-        <button class="type-btn" id="type-cardio" onclick="setWorkoutType('cardio')">Cardio</button>
+        <button class="type-btn active" id="type-strength" onclick="setWorkoutType('strength')">💪 Strength</button>
+        <button class="type-btn" id="type-cardio" onclick="setWorkoutType('cardio')">🏃 Cardio</button>
       </div>
 
       <!-- Strength inputs -->
@@ -163,7 +163,7 @@
         <div class="section-label">Exercise</div>
         <div style="display:flex;gap:8px;margin-bottom:10px;">
           <select id="exercise-select" style="flex:1;"></select>
-          <button class="btn-icon" onclick="openAddExerciseModal()">+</button>
+          <button class="btn-icon" onclick="openAddExerciseModal()">+ Custom</button>
         </div>
         <div class="input-row">
           <div>
@@ -176,6 +176,9 @@
           </div>
         </div>
         <button class="btn btn-primary add-set-btn" onclick="addSet()">+ Add Set</button>
+        <div class="section-label" style="margin-top:16px;">Sets</div>
+        <div id="set-list"></div>
+        <button class="btn btn-primary" style="margin-top:16px;" onclick="saveWorkout()">Save Workout</button>
       </div>
 
       <!-- Cardio inputs -->
@@ -186,12 +189,10 @@
           <option>Cycling</option>
           <option>Swimming</option>
           <option>Rowing</option>
-          <option>Jump rope</option>
           <option>Elliptical</option>
-          <option>Stairmaster</option>
+          <option>Jump Rope</option>
+          <option>Stair Climber</option>
           <option>Walking</option>
-          <option>HIIT</option>
-          <option>Other</option>
         </select>
         <div class="input-row">
           <div>
@@ -199,29 +200,11 @@
             <input type="number" id="cardio-duration" placeholder="30" min="1" />
           </div>
           <div>
-            <div class="input-label">Intensity (1-10)</div>
-            <input type="number" id="cardio-intensity" placeholder="7" min="1" max="10" />
-          </div>
-        </div>
-        <div class="input-row">
-          <div>
-            <div class="input-label">Distance (km) optional</div>
+            <div class="input-label">Distance (km)</div>
             <input type="number" id="cardio-distance" placeholder="5" step="0.1" />
           </div>
-          <div>
-            <div class="input-label">Calories optional</div>
-            <input type="number" id="cardio-calories" placeholder="300" />
-          </div>
         </div>
-        <button class="btn btn-primary add-set-btn" onclick="addCardio()">+ Log Cardio</button>
-      </div>
-
-      <!-- Sets logged today -->
-      <div id="exercise-groups"></div>
-
-      <!-- Save workout -->
-      <div id="save-workout-wrap" style="display:none;margin-top:16px;">
-        <button class="btn btn-primary" onclick="saveWorkout()">Save Workout</button>
+        <button class="btn btn-primary" onclick="saveWorkout()">Log Cardio</button>
       </div>
     </div>
 
@@ -234,22 +217,34 @@
     <!-- ─── PROGRESS SCREEN ─── -->
     <div class="screen" id="screen-progress">
       <div class="section-title">Progress</div>
-      <div class="period-toggle">
-        <button class="period-btn active" onclick="setPeriod('week', this)">Week</button>
-        <button class="period-btn" onclick="setPeriod('month', this)">Month</button>
-        <button class="period-btn" onclick="setPeriod('3months', this)">3 Months</button>
-      </div>
-      <div id="progress-content"></div>
 
-      <!-- Monthly body check-in -->
-      <div class="section-label" style="margin-top:24px;">Monthly check-in</div>
+      <div class="section-label">Weekly Volume (last 8 weeks)</div>
       <div class="card">
-        <div style="font-size:13px;color:var(--text3);margin-bottom:12px;">Log your current weight to track BMI over time</div>
-        <div style="display:flex;gap:8px;align-items:center;">
-          <input type="number" id="checkin-weight" placeholder="75.0" step="0.1" style="flex:1;" />
-          <button class="btn btn-primary btn-sm" style="width:auto;" onclick="logCheckin()">Log</button>
+        <div id="volume-chart"></div>
+      </div>
+
+      <div class="section-label">Last 30 Days</div>
+      <div class="card">
+        <div id="streak-dots"></div>
+      </div>
+
+      <div class="section-label">Monthly Weight Check-in</div>
+      <div class="card">
+        <div class="input-row">
+          <div>
+            <div class="input-label">Your weight</div>
+            <input type="number" id="checkin-weight" placeholder="75" step="0.1" />
+          </div>
+          <div style="display:flex;align-items:flex-end;">
+            <button class="btn btn-primary" onclick="saveCheckin()">Log</button>
+          </div>
         </div>
         <div id="checkin-history" style="margin-top:14px;"></div>
+      </div>
+
+      <div class="section-label">BMI Trend</div>
+      <div class="card">
+        <div id="bmi-trend"></div>
       </div>
     </div>
 
@@ -284,15 +279,13 @@
     <div class="screen" id="screen-profile">
       <div class="section-title">Profile</div>
 
-      <!-- Profile card -->
       <div class="card" id="profile-card">
-        <div class="profile-avatar" id="profile-avatar"></div>
-        <div class="profile-name" id="profile-name-display">—</div>
+        <div class="profile-avatar" id="profile-avatar">?</div>
+        <div class="profile-name" id="profile-name-display">Your Name</div>
         <div class="profile-email" id="profile-email-display"></div>
         <div class="profile-goal-badge" id="profile-goal-badge"></div>
       </div>
 
-      <!-- BMI card -->
       <div class="section-label">Body stats</div>
       <div class="card">
         <div class="bmi-display">
@@ -319,7 +312,6 @@
         </div>
       </div>
 
-      <!-- Edit profile -->
       <div class="section-label">Edit profile</div>
       <div class="card">
         <div class="auth-field">
@@ -345,7 +337,6 @@
         <button class="btn btn-primary" onclick="saveProfile()">Save changes</button>
       </div>
 
-      <!-- Settings -->
       <div class="section-label">Settings</div>
       <div class="card">
         <div class="settings-item">
@@ -407,8 +398,8 @@
       <div class="pr-popup-title">NEW PR!</div>
       <div class="pr-popup-exercise" id="pr-popup-exercise"></div>
       <div class="pr-popup-weight" id="pr-popup-weight"></div>
-      <div class="pr-confetti" id="pr-confetti"></div>
-      <button class="btn btn-primary" onclick="closePRPopup()" style="margin-top:20px;">Let's go!</button>
+      <div id="pr-confetti"></div>
+      <button class="btn btn-primary" onclick="closePRPopup()" style="margin-top:24px;position:relative;z-index:2;">Let's go! 🎉</button>
     </div>
   </div>
 
@@ -429,9 +420,14 @@
   <!-- Toast -->
   <div class="toast" id="toast"></div>
 
-  <!-- Scripts -->
+  <!-- Scripts — order matters -->
   <script src="auth.js"></script>
   <script src="app.js"></script>
+  <script>
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('./sw.js');
+    }
+  </script>
 
 </body>
 </html>
