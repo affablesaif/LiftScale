@@ -13,9 +13,7 @@
 </head>
 <body>
 
-  <!-- ═══════════════════════════════════════════ -->
-  <!-- LOADING SCREEN                              -->
-  <!-- ═══════════════════════════════════════════ -->
+  <!-- LOADING -->
   <div id="loading-screen">
     <div class="loading-logo">Lift<span>Scale</span></div>
     <div class="loading-dots">
@@ -25,18 +23,13 @@
     </div>
   </div>
 
-  <!-- ═══════════════════════════════════════════ -->
-  <!-- AUTH SCREEN                                 -->
-  <!-- ═══════════════════════════════════════════ -->
+  <!-- AUTH -->
   <div id="auth-screen">
     <div class="auth-logo">Lift<span>Scale</span></div>
     <div class="auth-tagline">Your personal gym tracker</div>
-
     <div class="auth-form-title" id="auth-title">Sign in</div>
-
     <div class="auth-error" id="auth-error"></div>
     <div class="auth-success" id="auth-success"></div>
-
     <div class="auth-form">
       <div class="auth-field">
         <label>Email</label>
@@ -51,24 +44,20 @@
       </div>
       <button class="btn btn-primary" id="auth-btn" onclick="handleAuth()">Sign in</button>
     </div>
-
     <div class="auth-switch" id="auth-switch">
       New to LiftScale? <a onclick="toggleAuthMode()">Create an account</a>
     </div>
   </div>
 
-  <!-- ═══════════════════════════════════════════ -->
-  <!-- ONBOARDING SCREEN (one-time after signup)   -->
-  <!-- ═══════════════════════════════════════════ -->
+  <!-- ONBOARDING -->
   <div id="onboarding-screen">
     <div class="onboarding-wrap">
       <div class="onboarding-logo">Lift<span>Scale</span></div>
       <div class="onboarding-progress-bar">
         <div class="onboarding-progress-fill" id="onboarding-fill"></div>
       </div>
-      <div class="onboarding-step-label" id="onboarding-step-label">Step 1 of 3</div>
 
-      <!-- Step 1: Name + Gender -->
+      <!-- Step 1 -->
       <div class="onboarding-step" id="ob-step-1">
         <div class="onboarding-title">What should we call you?</div>
         <div class="onboarding-sub">Let's personalise your experience</div>
@@ -79,7 +68,6 @@
         <div class="auth-field">
           <label>Gender</label>
           <select id="ob-gender">
-            <option value="">Prefer not to say</option>
             <option value="male">Male</option>
             <option value="female">Female</option>
             <option value="other">Other</option>
@@ -87,17 +75,27 @@
         </div>
       </div>
 
-      <!-- Step 2: Height + Weight -->
+      <!-- Step 2 -->
       <div class="onboarding-step" id="ob-step-2" style="display:none;">
         <div class="onboarding-title">Your body stats</div>
         <div class="onboarding-sub">Used to calculate your BMI</div>
-        <div class="toggle-group" style="margin:20px 0 16px;">
-          <button class="toggle-opt active" id="unit-kg-btn" onclick="setObUnit('metric')">kg / cm</button>
-          <button class="toggle-opt" id="unit-lb-btn" onclick="setObUnit('imperial')">lbs / ft</button>
+        <div class="auth-field" style="margin-top:20px;">
+          <label>Height unit</label>
+          <div class="toggle-group" style="margin-top:6px;">
+            <button class="toggle-opt active" id="unit-height-cm" onclick="setObHeightUnit('cm')">cm</button>
+            <button class="toggle-opt" id="unit-height-ft" onclick="setObHeightUnit('ft')">ft</button>
+          </div>
         </div>
         <div class="auth-field">
           <label id="ob-height-label">Height (cm)</label>
           <input type="number" id="ob-height" placeholder="175" />
+        </div>
+        <div class="auth-field" style="margin-top:16px;">
+          <label>Weight unit</label>
+          <div class="toggle-group" style="margin-top:6px;">
+            <button class="toggle-opt active" id="unit-weight-kg" onclick="setObWeightUnit('kg')">kg</button>
+            <button class="toggle-opt" id="unit-weight-lb" onclick="setObWeightUnit('lb')">lb</button>
+          </div>
         </div>
         <div class="auth-field">
           <label id="ob-weight-label">Current weight (kg)</label>
@@ -105,11 +103,11 @@
         </div>
       </div>
 
-      <!-- Step 3: Fitness Goal -->
+      <!-- Step 3 -->
       <div class="onboarding-step" id="ob-step-3" style="display:none;">
         <div class="onboarding-title">What's your goal?</div>
         <div class="onboarding-sub">This helps us tailor your experience</div>
-        <div class="goal-options" style="margin-top:24px;">
+        <div class="goal-options">
           <div class="goal-option" id="goal-lose" onclick="selectGoal('lose')">
             <div class="goal-icon">↓</div>
             <div class="goal-label">Lose weight</div>
@@ -132,12 +130,9 @@
     </div>
   </div>
 
-  <!-- ═══════════════════════════════════════════ -->
-  <!-- MAIN APP                                    -->
-  <!-- ═══════════════════════════════════════════ -->
+  <!-- MAIN APP -->
   <div id="main-app">
 
-    <!-- Header -->
     <div class="app-header">
       <div>
         <div class="logo">Lift<span>Scale</span></div>
@@ -149,16 +144,15 @@
       </div>
     </div>
 
-    <!-- ─── LOG SCREEN ─── -->
+    <!-- LOG -->
     <div class="screen active" id="screen-log">
       <div class="section-title" id="log-day-title"></div>
-
       <div class="type-toggle">
         <button class="type-btn active" id="type-strength" onclick="setWorkoutType('strength')">💪 Strength</button>
         <button class="type-btn" id="type-cardio" onclick="setWorkoutType('cardio')">🏃 Cardio</button>
       </div>
 
-      <!-- Strength inputs -->
+      <!-- Strength -->
       <div id="strength-inputs">
         <div class="section-label">Exercise</div>
         <div style="display:flex;gap:8px;margin-bottom:10px;">
@@ -181,18 +175,16 @@
         <button class="btn btn-primary" style="margin-top:16px;" onclick="saveWorkout()">Save Workout</button>
       </div>
 
-      <!-- Cardio inputs -->
+      <!-- Cardio -->
       <div id="cardio-inputs" style="display:none;">
-        <div class="section-label">Cardio Type</div>
-        <select id="cardio-select" style="margin-bottom:10px;">
-          <option>Running</option>
-          <option>Cycling</option>
-          <option>Swimming</option>
-          <option>Rowing</option>
-          <option>Elliptical</option>
-          <option>Jump Rope</option>
-          <option>Stair Climber</option>
-          <option>Walking</option>
+        <div class="section-label">Activity</div>
+        <select id="cardio-select" style="margin-bottom:14px;"></select>
+        <div class="section-label">Intensity</div>
+        <select id="cardio-intensity" style="margin-bottom:14px;">
+          <option value="low">Low — Light effort, easy breathing</option>
+          <option value="moderate" selected>Moderate — Steady effort, can hold a conversation</option>
+          <option value="high">High — Hard effort, difficult to speak</option>
+          <option value="maximum">Maximum — All-out, unsustainable</option>
         </select>
         <div class="input-row">
           <div>
@@ -204,30 +196,29 @@
             <input type="number" id="cardio-distance" placeholder="5" step="0.1" />
           </div>
         </div>
-        <button class="btn btn-primary" onclick="saveWorkout()">Log Cardio</button>
+        <button class="btn btn-primary cardio-btn" onclick="saveWorkout()">Log Cardio</button>
       </div>
     </div>
 
-    <!-- ─── HISTORY SCREEN ─── -->
+    <!-- HISTORY -->
     <div class="screen" id="screen-history">
       <div class="section-title">History</div>
+      <div class="history-filters">
+        <button class="history-filter-btn active" onclick="setHistoryFilter('all', this)">All</button>
+        <button class="history-filter-btn" onclick="setHistoryFilter('week', this)">Week</button>
+        <button class="history-filter-btn" onclick="setHistoryFilter('month', this)">Month</button>
+        <button class="history-filter-btn" onclick="setHistoryFilter('year', this)">Year</button>
+      </div>
       <div id="history-list"></div>
     </div>
 
-    <!-- ─── PROGRESS SCREEN ─── -->
+    <!-- PROGRESS -->
     <div class="screen" id="screen-progress">
       <div class="section-title">Progress</div>
-
       <div class="section-label">Weekly Volume (last 8 weeks)</div>
-      <div class="card">
-        <div id="volume-chart"></div>
-      </div>
-
+      <div class="card"><div id="volume-chart"></div></div>
       <div class="section-label">Last 30 Days</div>
-      <div class="card">
-        <div id="streak-dots"></div>
-      </div>
-
+      <div class="card"><div id="streak-dots"></div></div>
       <div class="section-label">Monthly Weight Check-in</div>
       <div class="card">
         <div class="input-row">
@@ -241,20 +232,21 @@
         </div>
         <div id="checkin-history" style="margin-top:14px;"></div>
       </div>
-
       <div class="section-label">BMI Trend</div>
-      <div class="card">
-        <div id="bmi-trend"></div>
-      </div>
+      <div class="card"><div id="bmi-trend"></div></div>
     </div>
 
-    <!-- ─── STATS SCREEN ─── -->
+    <!-- STATS -->
     <div class="screen" id="screen-stats">
       <div class="section-title">Stats</div>
       <div class="stats-grid">
         <div class="stat-card">
           <div class="stat-value" id="stat-workouts">0</div>
           <div class="stat-label">Workouts</div>
+        </div>
+        <div class="stat-card stat-card-cardio">
+          <div class="stat-value cardio-stat-value" id="stat-cardio-count">0</div>
+          <div class="stat-label">Cardio sessions</div>
         </div>
         <div class="stat-card">
           <div class="stat-value" id="stat-volume">0</div>
@@ -264,28 +256,24 @@
           <div class="stat-value" id="stat-prs">0</div>
           <div class="stat-label">Personal records</div>
         </div>
-        <div class="stat-card">
-          <div class="stat-value" id="stat-cardio-mins">0</div>
+        <div class="stat-card stat-card-cardio" style="grid-column:span 2;">
+          <div class="stat-value cardio-stat-value" id="stat-cardio-mins">0</div>
           <div class="stat-label">Cardio minutes</div>
         </div>
       </div>
       <div class="section-label">Personal Records</div>
-      <div class="card">
-        <div id="pr-list"></div>
-      </div>
+      <div class="card"><div id="pr-list"></div></div>
     </div>
 
-    <!-- ─── PROFILE SCREEN ─── -->
+    <!-- PROFILE -->
     <div class="screen" id="screen-profile">
       <div class="section-title">Profile</div>
-
       <div class="card" id="profile-card">
         <div class="profile-avatar" id="profile-avatar">?</div>
         <div class="profile-name" id="profile-name-display">Your Name</div>
         <div class="profile-email" id="profile-email-display"></div>
         <div class="profile-goal-badge" id="profile-goal-badge"></div>
       </div>
-
       <div class="section-label">Body stats</div>
       <div class="card">
         <div class="bmi-display">
@@ -311,7 +299,6 @@
           </div>
         </div>
       </div>
-
       <div class="section-label">Edit profile</div>
       <div class="card">
         <div class="auth-field">
@@ -336,7 +323,6 @@
         </div>
         <button class="btn btn-primary" onclick="saveProfile()">Save changes</button>
       </div>
-
       <div class="section-label">Settings</div>
       <div class="card">
         <div class="settings-item">
@@ -352,12 +338,11 @@
         <div class="settings-item">
           <div>
             <div class="settings-label">Clear all data</div>
-            <div class="settings-desc">Permanently delete everything</div>
+            <div class="settings-desc">Requires password confirmation</div>
           </div>
           <button class="btn btn-danger btn-sm" onclick="clearAllData()">Clear</button>
         </div>
       </div>
-
       <div style="padding:8px 0 4px;">
         <button class="btn btn-secondary" style="width:100%;" onclick="signOut()">Sign out</button>
       </div>
@@ -386,12 +371,9 @@
         Profile
       </button>
     </nav>
-
   </div>
 
-  <!-- ═══════════════════════════════════════════ -->
-  <!-- PR CELEBRATION POPUP                        -->
-  <!-- ═══════════════════════════════════════════ -->
+  <!-- PR POPUP -->
   <div id="pr-popup" class="pr-popup-overlay">
     <div class="pr-popup-box">
       <div class="pr-popup-emoji">🏆</div>
@@ -403,9 +385,7 @@
     </div>
   </div>
 
-  <!-- ═══════════════════════════════════════════ -->
-  <!-- ADD CUSTOM EXERCISE MODAL                   -->
-  <!-- ═══════════════════════════════════════════ -->
+  <!-- CUSTOM EXERCISE MODAL -->
   <div class="modal-overlay" id="custom-ex-modal">
     <div class="modal">
       <div class="modal-title">Add Exercise</div>
@@ -417,17 +397,12 @@
     </div>
   </div>
 
-  <!-- Toast -->
   <div class="toast" id="toast"></div>
 
-  <!-- Scripts — order matters -->
   <script src="auth.js"></script>
   <script src="app.js"></script>
   <script>
-    if ('serviceWorker' in navigator) {
-      navigator.serviceWorker.register('./sw.js');
-    }
+    if ('serviceWorker' in navigator) navigator.serviceWorker.register('./sw.js');
   </script>
-
 </body>
 </html>
